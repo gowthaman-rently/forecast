@@ -1,5 +1,6 @@
 const locationReducer = (state={loading:true,locations:null,error:null}, action)=>{
     switch(action.type){
+        case "RESET_LOCATION":
         case "GET_LOCATION":
             return {
                 loading:true,

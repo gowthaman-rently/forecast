@@ -20,6 +20,13 @@ export const setError = (error) =>{
     }
 }
 
+export const resetLocation = (error) =>{
+    return{
+        type : "RESET_LOCATION",
+        error
+    }
+}
+
 // Favourite
 
 export const addLocation = (location) =>{
