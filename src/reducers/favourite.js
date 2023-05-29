@@ -4,9 +4,8 @@ const favouriteReducer = (state=[], action)=>{
             return [...state, action.payload]
         
         case "REMOVE_LOCATION":
-            const index = state.indexOf(action.payload);
-            const temp_state = state.splice(index, 1);
-            return temp_state
+            let tempState = state.filter(ele=>ele!==action.payload)
+            return tempState
 
         default:
             return state

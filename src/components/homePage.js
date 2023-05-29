@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { resetLocation, setError, setLocation } from '../actions';
+import { setError, setLocation } from '../actions';
 import RapidAPIConnect from './rapidConnect';
 import { connect } from 'react-redux';
 import TextField from '@mui/material/TextField';
@@ -7,7 +7,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import { createRef } from 'react';
 import { Link } from 'react-router-dom';
 
-
+// redux thunk
 const searchLocation = (query) => {
     return (dispatch) => {
         RapidAPIConnect("GET", "https://weatherapi-com.p.rapidapi.com/search.json", { q: query }).then(
@@ -25,7 +25,6 @@ const searchLocation = (query) => {
 class HomePage extends Component {
     constructor(props) {
         super(props);
-        this.props.dispatch(resetLocation());
         this.searchInput = createRef();
         this.searchResult = createRef();
     }
@@ -45,7 +44,9 @@ class HomePage extends Component {
 
     render() {
         return (
-            <Grid container pt={10} pb={1} sx={{ backgroundImage: "linear-gradient(white, lightblue)" }} height={"100vh"}>
+            <Box sx={{ backgroundImage: "linear-gradient(white, lightblue)" }} height={"100vh"}>
+              
+            <Grid container pt={10} pb={1} >
                 <Grid item m={"auto"} xs={11} sm={10} md={8} lg={6} xl={4} height={"10px"} position={"relative"}>
                     <TextField
                         id="filled-search"
@@ -95,15 +96,23 @@ class HomePage extends Component {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} my={2}>
-                    <Typography component={"div"} variant='h5' fontWeight={"bold"} borderBottom={"2px solid darkblue"} color={"darkblue"} py={3}>
+                <Grid item xs={12} >
+                    <Typography component={"div"} variant='h5' fontWeight={"bold"} borderBottom={"2px solid darkblue"} color={"darkblue"} py={3} marginTop={10}>
                         Favourite
                     </Typography>
                 </Grid>
-                {console.log(this.props)}
+                {/* {console.log(this.props)} */}
                 {
                     this.props.favourite.length !== 0
-                        ? <></>
+                        ? this.props.favourite.map((ele, ind)=>{
+                            return <Grid item xs={12} key={ind}>
+                                <Link to={`/${ele}`} style={{ textDecoration: "none", color: "black", "&:hover": { bgcolor: "lightgray " } }}>
+                                    <Typography component={"div"} variant='subtitle1' fontWeight={"bold"} fontSize={20}>
+                                        {`${ele}`}
+                                    </Typography>
+                                </Link>
+                            </Grid>
+                        })
                         : <Grid item xs={12}>
                             <Typography component={"div"} variant='h6'>
                                 No Locations added
@@ -111,6 +120,7 @@ class HomePage extends Component {
                         </Grid>
                 }
             </Grid>
+        </Box>
         );
     }
 }

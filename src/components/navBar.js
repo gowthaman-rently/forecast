@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import {AppBar, Toolbar , Typography , Container} from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
 class NavBar extends Component {
