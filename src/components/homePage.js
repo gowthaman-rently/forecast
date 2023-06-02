@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { setError, setLocation } from '../actions';
+import { removeLocation, setError, setLocation } from '../actions';
 import RapidAPIConnect from './rapidConnect';
 import { connect } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import { Box, Grid, Typography } from '@mui/material';
 import { createRef } from 'react';
 import { Link } from 'react-router-dom';
+import FavouriteCard from './favouriteCard';
 
 // redux thunk
 const searchLocation = (query) => {
@@ -44,10 +45,10 @@ class HomePage extends Component {
 
     render() {
         return (
-            <Box sx={{ backgroundImage: "linear-gradient(white, lightblue)" }} height={"100vh"}>
+            <Box sx={{ backgroundImage: "linear-gradient(white, lightblue)" }} height={"100vh"} >
               
             <Grid container pt={10} pb={1} >
-                <Grid item m={"auto"} xs={11} sm={10} md={8} lg={6} xl={4} height={"10px"} position={"relative"}>
+                <Grid item m={"auto"} xs={11} sm={10} md={8} lg={6} xl={4} height={"10px"} position={"relative"} paddingTop={10}>
                     <TextField
                         id="filled-search"
                         placeholder="Search location name"
@@ -101,20 +102,19 @@ class HomePage extends Component {
                         Favourite
                     </Typography>
                 </Grid>
-                {/* {console.log(this.props)} */}
                 {
                     this.props.favourite.length !== 0
-                        ? this.props.favourite.map((ele, ind)=>{
-                            return <Grid item xs={12} key={ind}>
-                                <Link to={`/${ele}`} style={{ textDecoration: "none", color: "black", "&:hover": { bgcolor: "lightgray " } }}>
-                                    <Typography component={"div"} variant='subtitle1' fontWeight={"bold"} fontSize={20}>
-                                        {`${ele}`}
-                                    </Typography>
-                                </Link>
-                            </Grid>
-                        })
-                        : <Grid item xs={12}>
-                            <Typography component={"div"} variant='h6'>
+                        ?<Grid item xs={12} sm={8} m={"auto"}>
+                            <Box height={"49vh"} overflow={"auto"} >
+                                <Grid container >
+                                    {this.props.favourite.map((ele, ind)=>{
+                                        return <FavouriteCard location={ele} key={ind} removeFunc={()=>this.props.dispatch(removeLocation(ele))}/>
+                                    })}
+                                </Grid>
+                            </Box> 
+                        </Grid>
+                        :<Grid item xs={12}>
+                            <Typography component={"div"} variant='h6' py={3} fontWeight={"bold"}>
                                 No Locations added
                             </Typography>
                         </Grid>
